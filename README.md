@@ -31,15 +31,13 @@
 
 ## Introduction
 
-In this episode, we are going to add social authorization support to the [MsalAuthInMaui](https://github.com/carlfranklin/MsalAuthInMaui) repo we built in the last episode.
-
-> Note: Some of the images will not have correct resource names. The most important thing is that the configuration settings are correct.
+In this episode, we are going to add social authorization support to the [MsalAuthInMaui](https://github.com/carlfranklin/MsalAuthInMaui) repo we built in episode #24.
 
 We are going to start by enhancing the repo by writing some code to move out hard-coded settings, to an *appsettings.json* file. MAUI does not come with an *appsettings.json* file, but we are going to make that happen. We are going to follow James Montemagno's post [App Configuration Settings in .NET MAUI (appsettings.json)](https://montemagno.com/dotnet-maui-appsettings-json-configuration/) with some minor changes to meet our needs.
 
 End results will look like this:.
 
-<img src="md-images/image-20220830134051446.png" alt="image-20220830134051446" style="zoom: 67%;" />
+<img src="images/image-20220830134051446.png" alt="image-20220830134051446" style="zoom: 67%;" />
 
 Let's get to it.
 
@@ -59,7 +57,7 @@ For this demo, we are going to use the latest version of [Visual Studio 2022](ht
 
 In order to build ASP.NET Core Web API applications, the `ASP.NET and web development` workload needs to be installed. In order to build `.NET MAUI` applications, you also need the `.NET Multi-platform App UI development` workload, so if you do not have them installed let's do that now.
 
-![.NET Multi-platform App UI development](md-images/34640f10f2d813f245973ddb81ffa401c7366e96e625b3e59c7c51a78bbb2056.png)  
+![.NET Multi-platform App UI development](images/34640f10f2d813f245973ddb81ffa401c7366e96e625b3e59c7c51a78bbb2056.png)  
 
 ## Demo
 
@@ -77,7 +75,7 @@ git clone https://github.com/carlfranklin/MsalAuthInMaui
 
 Open the *MsalAuthInMaui.sln* solution, and add the following NuGet packages to the *MsalAuthInMaui.csproj* project, by following the following commands in the `Package Manager Console`.
 
-![Package Manager Console](md-images/ca1bae664dc62f24fbf96756018ab784445cc17c9e22de687cd0d3bde7d30411.png)  
+![Package Manager Console](images/ca1bae664dc62f24fbf96756018ab784445cc17c9e22de687cd0d3bde7d30411.png)  
 
 ```powershell
 install-package Microsoft.Extensions.Configuration.Binder
@@ -87,17 +85,17 @@ install-package Newtonsoft.Json
 
 >:blue_book: Make sure you select the MsalAuthInMaui project.
 
-![Install Packages](md-images/269c3663dc92156fdb411b14fbd976ee993f39c4f93cc6aa9e3fbeee1d8ea231.png)
+![Install Packages](images/269c3663dc92156fdb411b14fbd976ee993f39c4f93cc6aa9e3fbeee1d8ea231.png)
 
 Add a new *appsettings.json* file to the *MsalAuthInMaui.csproj* project.
 
-![Add a appsettings.json File](md-images/b746252dace39467cf28cce11251e5f356bd795556f3aec971344fa7d9a5aa29.png)  
+![Add a appsettings.json File](images/b746252dace39467cf28cce11251e5f356bd795556f3aec971344fa7d9a5aa29.png)  
 
-![appsettings.json File](md-images/1ffa11d7fb03649d26597274ac047bb8ad30575145280402095cfec19a353176.png)  
+![appsettings.json File](images/1ffa11d7fb03649d26597274ac047bb8ad30575145280402095cfec19a353176.png)  
 
 Change the Build Action to Embedded resource.
 
-![Add a appsettings.json File](md-images/2848c1ab2f92466b1997aa0639be7e5708e9d839709a82fedcdd0e7f35ed5592.png)  
+![Add a appsettings.json File](images/2848c1ab2f92466b1997aa0639be7e5708e9d839709a82fedcdd0e7f35ed5592.png)  
 
 Add the following code to the *appsettings.json* file:
 
@@ -522,11 +520,11 @@ Let's start by going to the Twitter's `Developer Platform` portal at (https://de
 
 Click on `Developer Portal`:
 
-![Developer Portal](md-images/215f9f304b7998203c0cebe326a920a4cd81bbf3944df0ed09b2b7902039b50b.png)  
+![Developer Portal](images/215f9f304b7998203c0cebe326a920a4cd81bbf3944df0ed09b2b7902039b50b.png)  
 
 Go to `Overview`.
 
-![Overview](md-images/fa7f2707e9842d91901e2b57bb9bfac1d94633240e2893ae2eb62d30a6a53e76.png)  
+![Overview](images/fa7f2707e9842d91901e2b57bb9bfac1d94633240e2893ae2eb62d30a6a53e76.png)  
 
 Towards the bottom, click on `+ Create App`.
 
@@ -534,29 +532,29 @@ Towards the bottom, click on `+ Create App`.
 
 Give it a name, and click Next. I would encourage you to use `MsalAuthInMaui` with a unique suffix that identifies you, such your company or your name. In my case, my suffix is TDNS (The Dot Net Show), so I'm naming my app `MsalAuthInMauiTDNS`
 
-<img src="md-images/image-20220830134759569.png" alt="image-20220830134759569" style="zoom:80%;" />
+<img src="images/image-20220830134759569.png" alt="image-20220830134759569" style="zoom:80%;" />
 
 
 
 Copy your `API Key`, and `API Key Secret` in a safe place, as we are going to need them to set up our Twitter Identity Provider in Azure AD B2C, and we will not be able to retrieve those later. Then click on `App Settings`.
 
-![Here are your keys & tokens](md-images/2ee1a277817897784ad143232bd030321ae04986ba3addf99cf9457a68ff66e9.png)  
+![Here are your keys & tokens](images/2ee1a277817897784ad143232bd030321ae04986ba3addf99cf9457a68ff66e9.png)  
 
 In order to provide authentication support using Twitter, we need to setup `OAuth 2.0a Authentication`. Click on `Set up`.
 
-![Set up](md-images/63dc5f6a60a533247f6b7a752bdfb62bc1b4968b1c8f8a1908c473fa5023a896.png)
+![Set up](images/63dc5f6a60a533247f6b7a752bdfb62bc1b4968b1c8f8a1908c473fa5023a896.png)
 
 Keep the defaults, and check `Native App`.
 
-![Native App](md-images/fdd8f4cc3bf5827cf3878cc4175e70ada7ecb909410a7578d3a334f0ceeacc81.png)  
+![Native App](images/fdd8f4cc3bf5827cf3878cc4175e70ada7ecb909410a7578d3a334f0ceeacc81.png)  
 
 Enter the url to your up and coming b2c app registration which will be `https://msalauthinmaui{YOUR-SUFFIX-HERE}.b2clogin.com/msalauthinmaui{YOUR-SUFFIX-HERE}.onmicrosoft.com/b2c_1_twitter_susi/oauth1/authresp` for the `Callback URI / Redirect URL`, and give it a `Website URL`, and click `Save`. Make sure to replace {YOUR-SUFFIX-HERE} with your unique suffix.
 
-![image-20220830135432255](md-images/image-20220830135432255.png)
+![image-20220830135432255](images/image-20220830135432255.png)
 
 You will be presented with your `OAuth 2.0 Client ID and Client Secret` screen. Store those values in a safe place. Click `Done`, and then `Yes, I saved it`.
 
-![OAuth 2.0 Client ID and Client Secret](md-images/964534e10a607b0d6a55952d28b285664d7b06140a45b5a67f7711338843abcf.png)  
+![OAuth 2.0 Client ID and Client Secret](images/964534e10a607b0d6a55952d28b285664d7b06140a45b5a67f7711338843abcf.png)  
 
 #### Create an Azure Active Directory B2C tenant
 
@@ -566,9 +564,9 @@ Go to [Azure](https://portal.azure.com/), and select your subscription.
 
 Type `azure b2c` in the search box, and click on `Azure AD B2C`.
 
-![Azure AD B2C](md-images/6de16366f91903a60682935857cb83247a76102ed48fe2dbbbf666c2208930cf.png)  
+![Azure AD B2C](images/6de16366f91903a60682935857cb83247a76102ed48fe2dbbbf666c2208930cf.png)  
 
-![Create an Azure AD B2C tenant Get started](md-images/ab8da0e12c5f7b00c0510d88fd3604097a83983188c18d0e0c355c8e6cf2eb39.png)  
+![Create an Azure AD B2C tenant Get started](images/ab8da0e12c5f7b00c0510d88fd3604097a83983188c18d0e0c355c8e6cf2eb39.png)  
 
 >:point_up: In the last demo, we went to `Azure AD B2C`, and then straight to `App registrations` to setup our app. Notice that the left menu is missing things like `Identity Providers`, `API connectors`, `User Flows`, etc.
 
@@ -576,78 +574,102 @@ Click on `Get started`, under `Create an Azure AD B2C tenant`, to get the instru
 
 That should take you to [Tutorial: Create an Azure Active Directory B2C tenant](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant?WT.mc_id=Portal-Microsoft_AAD_B2CAdmin) with instructions on to create an Azure AD B2C tenant. Follow the instructions, and make sure you set the `Initial domain name` to `MsalAuthInMaui{YOUR_SUFFIX}`. 
 
-![Create an Azure AD B2C tenant Get started](md-images/bb8da0e12c5f7b00c0510d88fd3604097a83983188c18d0e0c355c8e6cf2eb39.png)  
+![Create an Azure AD B2C tenant Get started](images/bb8da0e12c5f7b00c0510d88fd3604097a83983188c18d0e0c355c8e6cf2eb39.png)  
 
 #### Configure your Azure Active Directory B2C tenant
 
 Once you create your new `MsalAuthInMaui` Azure B2C tenant, and switch to it, you should be able to see the following:
 
-![Azure Active Directory B2C tenant](md-images/210c681399fad9fa12c717dc197f9ff56984f94f52c707e03a68089dc5ce1931.png) 
+ ![cap10](images/cap10.png)
 
 >:point_up: Notice that the left menu now has `Identity Providers`, `API connectors`, `User Flows`, etc.
 
 As we did before, go to `App registrations`, add `New registration`, enter the following values, and click on `Register`.
 
-![App registrations](md-images/28e46d3972e7139a595f1d24327fb1194be9f663c4be60e7b2445d4a014ac29c.png)  
+![image-20220831130956480](images/image-20220831130956480.png)  
 
 | Setting                 | Value                                                        |
 | ----------------------- | ------------------------------------------------------------ |
 | Name                    | MsalAuthInMaui{YOUR-SUFFIX-HERE}                             |
 | Supported account types | Accounts in any identity provider or organizational directory (for authenticating users with user flows) |
-| Redirect URI            | Select Public client/native (mobile & desktop), and enter your redirect url from MainActivity.cs. Ex: msauth://com.companyname.msalauthinmaui/snaHlgr4autPsfVDSBVaLpQXnqU= |
+| Redirect URI            | Select Public client/native (mobile & desktop), and enter your redirect url from MainActivity.cs. Use the pattern msauth://com.companyname.msalauthinmaui{YOUR-SUFFIX}/{NEW-GUID} |
 | Permissions             | Check the Grant admin consent to openid and offline_access permissions box |
 
-![Register App registration](md-images/105e014e1523a508971cbb3d32697f8a62a1ea8cbc8a90dcf62507a592743c79.png)  
+![image-20220831121726073](images/image-20220831121726073.png)  
 
 Notice a new `Application (client) ID`, and `Directory (tenant) ID`, will be generated.
 
-![Client and Tenant IDs](md-images/a1ae07eef467508dc4a3b9f94f3cd753cf33150032d83151a610c1652ff49b0d.png)  
+![image-20220831121936585](images/image-20220831121936585.png)  
 
 Go ahead, and copy those new values, and replace the ones in the *appsettings.json* file of our `SecureWebApi` project.
 
-Go to the new `App registration`.
+Go to `Authentication`, check off the Redirect URIs and save. Then click on `+ Add a platform`, then on Web.
 
-![New App registration](md-images/733ee18a366562c91d32fdb615521f64dd704f316361694d55c5f4a0c09c5efe.png)  
-
-Go to `Authentication`, click on `+ Add a platform`, then on Web.
-
-![Add a platform](md-images/b3ec50c7f8a5f8dd55decf959222ead496bcde3d97ec8fb190de1afe20fff618.png)  
+![image-20220831122426140](images/image-20220831122426140.png)  
 
 Enter your secure webapi url + "/signin-oidc". Ex: `https://as-securewebapi.azurewebsites.net/signin-oidc` as the Redirect URI, and check `Access tokens (used for implicit flows)`, and `ID tokens (used for implicit and hybrid flows`)
 
-![Redirect URI](md-images/98e7e17b7f64695e670873d8929f8425ce343bcf7533188b93a6af6269b333ce.png)  
-
-#### 
-
-![](md-images/8e031f949927dca41c99aa063f6cf08d50aca2f866ba3cd957ea2891f7052a72.png)  
+![image-20220831122702166](images/image-20220831122702166.png)  
 
 #### Add Twitter Callback URL
 
 For the Web platform, click `Add URI` and copy the callback URL you set up in the Twitter account. This should be `https://msalauthinmaui{YOUR-SUFFIX}.b2clogin.com/msalauthinmaui{YOUR-SUFFIX}.onmicrosoft.com/b2c_1_twitter_susi/oauth1/authresp` with your suffix substituted
 
-![image-20220830121556356](md-images/image-20220830121556356.png)
+![image-20220831122943356](images/image-20220831122943356.png)  
+
+![image-20220830121556356](images/image-20220830121556356.png)
 
 Make the following selections, and click on Save.
 
-![Save](md-images/45cd4d0db11ad1ebfe32d148d7e63e0489486ef6342bbc1a8888efa0942a1fbc.png)  
+![image-20220831123213804](images/image-20220831123213804.png)  
 
 Go to `Certificates & secrets` to add a new client secret, copy the value, and replace the `ClientSecret` setting in our `SecureWebApi`'s *appsettings.json* file.
 
-![Client Secret](md-images/ee878d9693a213254c52dc5ec72b7e1c63aa34ab4e372680cdf5ce94471eef23.png)  
+ ![image-20220831123417546](images/image-20220831123417546.png)
+
+Add your secret using your suffix:
+
+![image-20220831123647507](images/image-20220831123647507.png)
+
+Copy the secret value and paste into your Secure Web API `appsettings.config` file.
+
+![image-20220831123949064](images/image-20220831123949064.png)
+
+#### Expose the API
 
 Go to `Expose an API`, click on `+ Add a scope`, and enter `access_as_user` for the `Scope name`, `Call the SecureWebAPI endpoints.` for the `Admin consent display name`, and `Allows the app to call the SecureWebAPI endpoints.` for the `Admin consent description`. Then keep `Enabled` checked, and click on `Add scope`.
 
-![Expose an API](md-images/69a97bda4578983e8695c64e9c3b290185b977e2ac8c9cfcc35ad9643aed9eb1.png)  
+![image-20220831124207194](images/image-20220831124207194.png)
 
-Go to `API permissions`, click on `+ Add a permission`, then on `My APIs`, and select `MsalAuthInMaui`.
+  
 
-![My APIs](md-images/7e8542be816a3cde12ca0fffb4f6fc36d818589d9d6651b1be0b2a50e2573aa7.png)  
+![image-20220831124559720](images/image-20220831124559720.png)
+
+
+
+#### Add API Permission
+
+Go to `API permissions`, click on `+ Add a permission`, then on `My APIs`, and select your API
+
+![image-20220831124800683](images/image-20220831124800683.png)  
 
 Then click on `Delegated permissions`, check `access_as_user`, and click `Add permissions`.
 
-![Add permissions](md-images/98c9d6fd6f355d651071387896f876e6fe100e365f4d9c4720fc15f54cec48c8.png)  
+![image-20220831125039963](images/image-20220831125039963.png)  
 
-Finally, go to `Branding & properties`, and get the `Publisher domain`, in our case `msalauthinmaui.onmicrosoft.com`, and update the `Domain` setting in the *appsettings.json* file of the `SecureWebApi` project.
+#### Grant admin consent
+
+Note that in the lower-left, you have not granted admin consent (also note that this graphic shows a different resource than yours)
+
+![image-20220830122030647](images/image-20220830122030647.png)
+
+Select `Grant admin consent for {YOUR-RESOURCE}` and then click `Yes` to confirm
+
+#### Copy your Domain to config
+
+Finally, go to `Branding & properties`, and get the `Publisher domain`, in our case `msalauthinmauitdns.onmicrosoft.com`, and update the `Domain` setting in the *appsettings.json* file of the `SecureWebApi` project.
+
+![image-20220831125307115](images/image-20220831125307115.png)
 
 Then for the `Instance` setting, also in *appsettings.json*, replace the `https://login.microsoftonline.com/` value we had in our previous demo, with `https://msalauthinmaui.b2clogin.com/`.
 
@@ -657,12 +679,12 @@ The complete file should look like below, but with your own IDs:
 {
   "AzureAd": {
     "Instance": "https://msalauthinmaui{YOUR-SUFFIX-HERE}.b2clogin.com/",
-    "Domain": "msalauthinmaui.onmicrosoft.com",
-    "TenantId": "REPLACE-WITH-YOUR-TENANT_ID",
-    "ClientId": "REPLACE-WITH-YOUR-CLIENT_ID",
+    "Domain": "msalauthinmaui{YOUR-SUFFIX-HERE}.onmicrosoft.com",
+    "TenantId": "{REPLACE-WITH-YOUR-TENANT_ID}",
+    "ClientId": "{REPLACE-WITH-YOUR-CLIENT_ID}",
     "CallbackPath": "/signin-oidc",
     "Scopes": "access_as_user",
-    "ClientSecret": "REPLACE-WITH-YOUR-CLIENT-SECRET",
+    "ClientSecret": "{REPLACE-WITH-YOUR-CLIENT-SECRET}",
     "ClientCertificates": [],
   },
   "MicrosoftGraph": {
@@ -670,7 +692,7 @@ The complete file should look like below, but with your own IDs:
     "Scopes": "user.read"
   },
   "DownstreamApi": {
-    "BaseUrl": "REPLACE-WITH-YOUR-SECURE-API-URL",
+    "BaseUrl": "{REPLACE-WITH-YOUR-SECURE-API-URL}",
     "Scopes": "user.read"
   },
   "Logging": {
@@ -683,19 +705,11 @@ The complete file should look like below, but with your own IDs:
 }
 ```
 
-#### Grant admin consent
-
-Note that in the lower-left, you have not granted admin consent (also note that this graphic shows a different resource than yours)
-
-![image-20220830122030647](md-images/image-20220830122030647.png)
-
-Select `Grant admin consent for {YOUR-RESOURCE}` and then click `Yes` to confirm
-
 #### Setup Twitter Identity Provider
 
 Go back to the MsalAuthInMaui Azure B2C tenant, click on `Identity providers`, then on `Twitter`, and enter `Twitter` for the name, and paste the Client ID and Client Secret, which are the `API Key` and `API Key Secret` that we saved when we set up our app in the Twitter's `Developer Platform` portal.
 
-![Twitter Identity Provider](md-images/015812162ee294f1da4d76fc8a0cf49a411168f542b60173efbe8e0d4c7cac80.png)  
+![image-20220831125616754](images/image-20220831125616754.png)  
 
 >:point_up: The Client ID and Client Secret needed are not the OAuth 2.0 values we stored also, but the Twitter API Key and API Key Secret under the Consumer Keys section in the Twitter Developer Portal, Keys and Tokens section.
 
@@ -703,43 +717,43 @@ Go back to the MsalAuthInMaui Azure B2C tenant, click on `Identity providers`, t
 
 Now we need to create a `Sign up and sign in` user flow. Go to `User flows`, and click on `+ New user flow`.
 
-![New user flow](md-images/106a8fc8d24a6c08e9bd4edd7780df7980a5c87d5a7da0c62bf8655d343a4db6.png)  
+![image-20220831125756341](images/image-20220831125756341.png)  
 
 Here we can create a few different user flows, depending on the things we want to allow in our application. For now, we are only interested in the `Sign up and sign in` user flow, so click that, then keep the recommended version, and click on `Create`.
 
-![Sign up and sign in](md-images/a016ee387ec9425c4ecda13045ff56f497aeaf5f79cb6da8f0c326cb2c132e78.png)  
+![Sign up and sign in](images/a016ee387ec9425c4ecda13045ff56f497aeaf5f79cb6da8f0c326cb2c132e78.png)  
 
 Give it a name of `twitter_susi` to distinguish from other identity provider flows, for instance if we add support for `Google`, `Facebook`, etc. Enable `Email signup`, this will allow the users to create accounts with their own email, and password. Check the Twitter box under `Social identity providers`, and keep the Email, MFA enforcement defaults.
 
-![twitter_susi](md-images/0160ca69deccffcdd579999fe6055fea6e2f16ed516f0e4b1cb1b669b62d85d8.png)  
+![twitter_susi](images/0160ca69deccffcdd579999fe6055fea6e2f16ed516f0e4b1cb1b669b62d85d8.png)  
 
 >:point_up: Notice that the full name will be `B2C_1_twitter_susi`, and `B2C_1_` is pre-appended. This is important, as we are going to need the name of the flow in our MAUI application.
 
 Check the attributes you want to collect when the users create an account with email and password, and any attributes you want to return in the access token. For our purposes, we are only going to select the `Display Name`, and keep the rest of the default values, (this selections can be changed later at any time.) Click on `Show more...`, in order to select `Display Name`, then click on `Ok`, and finally on `Create`.
 
-![Display Name](md-images/bc38d01d864b88729da35eec0c2b1c3a4092628ab2d2a8d23d3278b32216cefc.png)  
+![Display Name](images/bc38d01d864b88729da35eec0c2b1c3a4092628ab2d2a8d23d3278b32216cefc.png)  
 
-![Twitter User Flow](md-images/aa8ca888daec69a9e882a7edbb85cdb1c2a15c36134984742c50558660a62eb9.png)  
+![image-20220831130005429](images/image-20220831130005429.png)  
 
 
 
 ### Re-Publish the SecureWeb API project
 
-Because we've made changes to the configuration, this is a good time to re-publish the API project.
+Because we've made changes to the configuration, we'll need to re-publish the API project before you can test the user flow.
 
 #### Test User Flow
 
 You can test the user flow, by clicking on it, and then clicking on `Run user flow`.
 
-![Test User Flow](md-images/3d3ef5ee595e08cee84c4d96e73a99864e45f2a8b2dec05fa34da14e6794715c.png)  
+![image-20220831130202242](images/image-20220831130202242.png)  
 
 If everything is successfully configured, you should see a new tab, with the UI that eventually is going to show up in our MAUI app.
 
-![Twitter Login](md-images/11702d7b364b1501bb713855c161936ff953e059b9adbd836b360dd1f94c81b3.png) 
+![image-20220831130250224](images/image-20220831130250224.png) 
 
 Press the `Twitter` button and you should see something like this.
 
-![Authorize Twitter](md-images/8350dcee9b498a93c42e2ff312de8247c5fa3b8246654a3dd9d03022577de786.png)  
+![image-20220831130355415](images/image-20220831130355415.png)  
 
 You can now choose `Authorize app` or leave that step until later. The important thing is that you got this far.
 
@@ -761,9 +775,9 @@ Go back to the *appsettings.json* file in our SecureWebApi application, and add 
 
 Right-click the SecureWebApi project, and publish the application.
 
-![Right-click SecureWebApi](md-images/9e1b49b89a05263ce0e1c6629275645295af79f9800f2a2e30f87c30cfc66547.png)  
+![Right-click SecureWebApi](images/9e1b49b89a05263ce0e1c6629275645295af79f9800f2a2e30f87c30cfc66547.png)  
 
-![Publish Application](md-images/da766bbf658b3d7c54b543c38e9e962073c93d6287efca548199b9990f82b9bf.png)  
+![Publish Application](images/da766bbf658b3d7c54b543c38e9e962073c93d6287efca548199b9990f82b9bf.png)  
 
 ### Add Twitter Authentication Support in MAUI
 
@@ -1302,41 +1316,41 @@ First we are going to login with Twitter, then we are going to create a new acco
 
 Click Twitter in the app, and Twitter again in the `Azure AD B2C` `Sign in` screen, to log in with your Twitter account.
 
-<img src="md-images/image-20220830135805571-166188406360341.png" alt="image-20220830135805571" style="zoom:50%;" />
+<img src="images/image-20220830135805571-166188406360341.png" alt="image-20220830135805571" style="zoom:50%;" />
 
-<img src="md-images/image-20220830135837403-166188406360342.png" alt="image-20220830135837403" style="zoom:50%;" />
+<img src="images/image-20220830135837403-166188406360342.png" alt="image-20220830135837403" style="zoom:50%;" />
 
-<img src="md-images/image-20220830135900178-166188406360343.png" alt="image-20220830135900178" style="zoom:50%;" />
+<img src="images/image-20220830135900178-166188406360343.png" alt="image-20220830135900178" style="zoom:50%;" />
 
-<img src="md-images/image-20220830135913088-166188406360344.png" alt="image-20220830135913088" style="zoom:50%;" />
+<img src="images/image-20220830135913088-166188406360344.png" alt="image-20220830135913088" style="zoom:50%;" />
 
-<img src="md-images/image-20220830135939196-166188406360345.png" alt="image-20220830135939196" style="zoom:50%;" />
+<img src="images/image-20220830135939196-166188406360345.png" alt="image-20220830135939196" style="zoom:50%;" />
 
-<img src="md-images/image-20220830135955044-166188406360346.png" alt="image-20220830135955044" style="zoom:50%;" />
+<img src="images/image-20220830135955044-166188406360346.png" alt="image-20220830135955044" style="zoom:50%;" />
 
 #### Create an Account with Email
 
 In order to create a new account, first log out, then click the `Login {social)` button, and then `Sign up now` in the `Azure AD B2C` `Sign in` screen.
 
-<img src="md-images/image-20220830140238239-166188406360348.png" alt="image-20220830140238239" style="zoom:50%;" />
+<img src="images/image-20220830140238239-166188406360348.png" alt="image-20220830140238239" style="zoom:50%;" />
 
-<img src="md-images/image-20220830140331813-166188406360347.png" alt="image-20220830140331813" style="zoom:50%;" />
+<img src="images/image-20220830140331813-166188406360347.png" alt="image-20220830140331813" style="zoom:50%;" />
 
 Enter your email address and click the `Send verification code` button.
 
-<img src="md-images/image-20220830140412624-166188406360349.png" alt="image-20220830140412624" style="zoom:50%;" />
+<img src="images/image-20220830140412624-166188406360349.png" alt="image-20220830140412624" style="zoom:50%;" />
 
 Check your inbox for the authentication code
 
-![Verification Code Email](md-images/52a68093fa31373f6491e2f2ffd50d389b188bee2cb9ca324657cf66f92772e3.png)
+![Verification Code Email](images/52a68093fa31373f6491e2f2ffd50d389b188bee2cb9ca324657cf66f92772e3.png)
 
 Enter the code in the app and click the `Verify code` button. 
 
-<img src="md-images/image-20220830140612564-166188406360350.png" alt="image-20220830140612564" style="zoom:50%;" />
+<img src="images/image-20220830140612564-166188406360350.png" alt="image-20220830140612564" style="zoom:50%;" />
 
 You can then enter a new password, confirm it, and enter your Display Name. Then click the `Create` button.
 
-<img src="md-images/image-20220830141105088-166188406360351.png" alt="image-20220830141105088" style="zoom:50%;" />
+<img src="images/image-20220830141105088-166188406360351.png" alt="image-20220830141105088" style="zoom:50%;" />
 
 
 
@@ -1348,7 +1362,7 @@ Go back to your Azure AD B2C instance, and click on `Users`.
 
 Notice the both the Twitter account, as well as the email-based account show up in Azure.
 
-![image-20220830141323575](md-images/image-20220830141323575-166188406360452.png)
+![image-20220830141323575](images/image-20220830141323575-166188406360452.png)
 
 ### Summary
 
