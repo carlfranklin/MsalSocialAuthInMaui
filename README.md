@@ -578,7 +578,7 @@ That should take you to [Tutorial: Create an Azure Active Directory B2C tenant](
 
 #### Configure your Azure Active Directory B2C tenant
 
-Once you create your new `MsalAuthInMaui` Azure B2C tenant, and switch to it, you should be able to see the following:
+Once you create your new Azure B2C tenant, and switch to it, you should be able to see the following:
 
  ![cap10](images/cap10.png)
 
@@ -671,7 +671,7 @@ Finally, go to `Branding & properties`, and get the `Publisher domain`, in our c
 
 ![image-20220831125307115](images/image-20220831125307115.png)
 
-Then for the `Instance` setting, also in *appsettings.json*, replace the `https://login.microsoftonline.com/` value we had in our previous demo, with `https://msalauthinmaui.b2clogin.com/`.
+Then for the `Instance` setting, also in *appsettings.json*, replace the `https://login.microsoftonline.com/` value we had in our previous demo, with `https://msalauthinmaui{YOUR-SUFFIX-HERE}.b2clogin.com/`.
 
 The complete file should look like below, but with your own IDs:
 
@@ -707,7 +707,7 @@ The complete file should look like below, but with your own IDs:
 
 #### Setup Twitter Identity Provider
 
-Go back to the MsalAuthInMaui Azure B2C tenant, click on `Identity providers`, then on `Twitter`, and enter `Twitter` for the name, and paste the Client ID and Client Secret, which are the `API Key` and `API Key Secret` that we saved when we set up our app in the Twitter's `Developer Platform` portal.
+Go back to the Azure B2C tenant, click on `Identity providers`, then on `Twitter`, and enter `Twitter` for the name, and paste the Client ID and Client Secret, which are the `API Key` and `API Key Secret` that we saved when we set up our app in the Twitter's `Developer Platform` portal.
 
 ![image-20220831125616754](images/image-20220831125616754.png)  
 
@@ -1366,7 +1366,7 @@ Notice the both the Twitter account, as well as the email-based account show up 
 
 ### Summary
 
-In this episode, we added social authorization support to the [MsalAuthInMaui](https://github.com/carlfranklin/MsalAuthInMaui) repo we built in the last episode.
+In this episode, we added social authorization support to the [MsalAuthInMaui](https://github.com/carlfranklin/MsalAuthInMaui) repo we built in episode 24.
 
 We enhanced the repo by moving out hard-coded settings, to an *appsettings.json* file.
 
