@@ -73,7 +73,7 @@ git clone https://github.com/carlfranklin/MsalAuthInMaui
 
 ### Add appsettings.json Support
 
-Open the *MsalAuthInMaui.sln* solution, and add the following NuGet packages to the *MsalAuthInMaui.csproj* project, by following the following commands in the `Package Manager Console`.
+Open the *SecureWebApi.sln* solution, and add the following NuGet packages to the *MsalAuthInMaui.csproj* project, by following the following commands in the `Package Manager Console`.
 
 ![Package Manager Console](images/ca1bae664dc62f24fbf96756018ab784445cc17c9e22de687cd0d3bde7d30411.png)  
 
@@ -143,7 +143,7 @@ namespace MsalAuthInMaui
 }
 ```
 
-At this point, we have everything ready to get the values from *appsettings.json*, and assign them to the Settings class. Let's open the *MauiProgram.cs* file, and add the following two using statements:
+At this point, we have everything ready to get the values from *appsettings.json*, and assign them to the Settings class. Let's open the *MauiProgram.cs* file, and add the following two using statements to the top of the file:
 
 ```csharp
 global using Microsoft.Extensions.Configuration;
@@ -601,7 +601,7 @@ Notice a new `Application (client) ID`, and `Directory (tenant) ID`, will be gen
 
 ![image-20220831121936585](images/image-20220831121936585.png)  
 
-Go ahead, and copy those new values, and replace the ones in the *appsettings.json* file of our `SecureWebApi` project.
+Go ahead, and copy those new values, and replace the ones in the *appsettings.json* files of our `SecureWebApi` project.
 
 Go to `Authentication`, check off the Redirect URIs and save. Then click on `+ Add a platform`, then on Web.
 
@@ -637,7 +637,7 @@ Copy the secret value and paste into your Secure Web API `appsettings.config` fi
 
 #### Expose the API
 
-Go to `Expose an API`, click on `+ Add a scope`, and enter `access_as_user` for the `Scope name`, `Call the SecureWebAPI endpoints.` for the `Admin consent display name`, and `Allows the app to call the SecureWebAPI endpoints.` for the `Admin consent description`. Then keep `Enabled` checked, and click on `Add scope`.
+Go to `Expose an API`, click on `+ Add a scope`, and enter "access_as_user" for the `Scope name`, "Call the SecureWebAPI endpoints." for the `Admin consent display name`, and "Allows the app to call the SecureWebAPI endpoints." for the `Admin consent description`. Then keep `Enabled` checked, and click on `Add scope`.
 
 ![image-20220831124207194](images/image-20220831124207194.png)
 
@@ -667,7 +667,7 @@ Select `Grant admin consent for {YOUR-RESOURCE}` and then click `Yes` to confirm
 
 #### Copy your Domain to config
 
-Finally, go to `Branding & properties`, and get the `Publisher domain`, in our case `msalauthinmauitdns.onmicrosoft.com`, and update the `Domain` setting in the *appsettings.json* file of the `SecureWebApi` project.
+Finally, go to `Branding & properties`, and get the `Publisher domain`, in our case `msalauthinmauitdns.onmicrosoft.com` (convert to lowercase), and update the `Domain` setting in the *appsettings.json* file of the `SecureWebApi` project. 
 
 ![image-20220831125307115](images/image-20220831125307115.png)
 
@@ -679,7 +679,7 @@ The complete file should look like below, but with your own IDs:
 {
   "AzureAd": {
     "Instance": "https://msalauthinmaui{YOUR-SUFFIX-HERE}.b2clogin.com/",
-    "Domain": "msalauthinmaui{YOUR-SUFFIX-HERE}.onmicrosoft.com",
+    "Domain": "{REPLACE-WITH-YOUR-DOMAIN}",
     "TenantId": "{REPLACE-WITH-YOUR-TENANT_ID}",
     "ClientId": "{REPLACE-WITH-YOUR-CLIENT_ID}",
     "CallbackPath": "/signin-oidc",
